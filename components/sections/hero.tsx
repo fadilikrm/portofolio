@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Globe, Smartphone, Eye, Cpu } from 'lucide-react';
@@ -7,8 +8,45 @@ import { siteConfig } from '@/config/site';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { usePrefersReducedMotion } from '@/hooks/use-media-query';
 
+const roles = [
+  'Junior IT Developer',
+  'Web & Mobile Developer',
+  'AI & Embedded System Enthusiast',
+];
+
 export const Hero = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setCurrentText(roles[0]);
+      return;
+    }
+
+    const targetRole = roles[currentRoleIndex];
+    const typingSpeed = isDeleting ? 35 : 75;
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        setCurrentText(targetRole.slice(0, currentText.length + 1));
+        if (currentText === targetRole) {
+          setTimeout(() => setIsDeleting(true), 2200);
+        }
+      } else {
+        setCurrentText(targetRole.slice(0, currentText.length - 1));
+        if (currentText === '') {
+          setIsDeleting(false);
+          setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+        }
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [currentText, isDeleting, currentRoleIndex, prefersReducedMotion]);
 
   const containerVariants = prefersReducedMotion ? undefined : staggerContainer;
   const itemVariants = prefersReducedMotion ? undefined : fadeInUp;
@@ -58,9 +96,15 @@ export const Hero = () => {
               </div>
             )}
 
-            <p className="text-lg sm:text-xl md:text-2xl text-[#9ca3af] font-medium max-w-3xl mx-auto leading-relaxed">
-              Junior IT Developer
-            </p>
+            {/* Typing Effect Role Title with Emerald Gradient */}
+            <div className="min-h-[40px] flex items-center justify-center">
+              <p className="text-xl sm:text-2xl md:text-3xl font-semibold max-w-3xl mx-auto leading-relaxed flex items-center justify-center">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] via-emerald-400 to-[#d97706] font-mono">
+                  {currentText}
+                </span>
+                <span className="w-0.5 h-6 sm:h-7 bg-[#10b981] animate-pulse inline-block ml-1" />
+              </p>
+            </div>
           </motion.div>
 
           {/* Profile Summary */}
