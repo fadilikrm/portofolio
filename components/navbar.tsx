@@ -86,14 +86,21 @@ export const Navbar = () => {
   }, []);
 
   const handleNavClick = useCallback(
-    (e: React.MouseEvent | React.TouchEvent, id: string) => {
+    (e: React.MouseEvent | React.TouchEvent, id: string, isMobile = false) => {
       e.preventDefault();
       e.stopPropagation();
-      setMobileMenuOpen(false);
       setActiveSection(id); // immediately highlight the clicked item
-      scrollToSection(id);
+
+      if (isMobile && mobileMenuOpen) {
+        // Close menu first, then wait for exit animation (200ms) before scrolling
+        // so the layout shift from menu closing doesn't cancel window.scrollTo
+        setMobileMenuOpen(false);
+        setTimeout(() => scrollToSection(id), 280);
+      } else {
+        scrollToSection(id);
+      }
     },
-    [scrollToSection],
+    [scrollToSection, mobileMenuOpen],
   );
 
   const emailHref =
@@ -190,7 +197,7 @@ export const Navbar = () => {
                   <button
                     key={item.id}
                     type="button"
-                    onClick={(e) => handleNavClick(e, item.id)}
+                    onClick={(e) => handleNavClick(e, item.id, true)}
                     className={`w-full text-left px-4 py-3.5 text-base font-medium rounded-xl transition-all duration-150 cursor-pointer bg-transparent border outline-none touch-manipulation ${
                       isActive
                         ? 'bg-[#10b981]/15 text-[#10b981] font-semibold border-[#10b981]/40'

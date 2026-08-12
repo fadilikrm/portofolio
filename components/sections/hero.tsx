@@ -8,45 +8,26 @@ import { siteConfig } from '@/config/site';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { usePrefersReducedMotion } from '@/hooks/use-media-query';
 
-const roles = [
-  'Junior IT Developer',
-  'Web & Mobile Developer',
-  'AI & Embedded System Enthusiast',
-];
+const roleText = 'Junior IT Developer';
 
 export const Hero = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (prefersReducedMotion) {
-      setCurrentText(roles[0]);
+      setCurrentText(roleText);
       return;
     }
 
-    const targetRole = roles[currentRoleIndex];
-    const typingSpeed = isDeleting ? 35 : 75;
-
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        setCurrentText(targetRole.slice(0, currentText.length + 1));
-        if (currentText === targetRole) {
-          setTimeout(() => setIsDeleting(true), 2200);
-        }
-      } else {
-        setCurrentText(targetRole.slice(0, currentText.length - 1));
-        if (currentText === '') {
-          setIsDeleting(false);
-          setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
-        }
-      }
-    }, typingSpeed);
-
-    return () => clearTimeout(timeout);
-  }, [currentText, isDeleting, currentRoleIndex, prefersReducedMotion]);
+    if (currentText.length < roleText.length) {
+      const timeout = setTimeout(() => {
+        setCurrentText(roleText.slice(0, currentText.length + 1));
+      }, 75);
+      return () => clearTimeout(timeout);
+    }
+  }, [currentText, prefersReducedMotion]);
 
   const containerVariants = prefersReducedMotion ? undefined : staggerContainer;
   const itemVariants = prefersReducedMotion ? undefined : fadeInUp;
