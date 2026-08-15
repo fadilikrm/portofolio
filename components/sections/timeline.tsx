@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, Trophy, GraduationCap, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
+import { Briefcase, Trophy, GraduationCap, Calendar, MapPin, CheckCircle2, ExternalLink } from 'lucide-react';
 import { experiences } from '@/config/experience';
 import type { ExperienceType } from '@/types';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
@@ -60,22 +60,66 @@ export const Timeline = () => {
             Rekam jejak profesional, kemenangan kompetisi hackathon, dan latar belakang akademis.
           </p>
 
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
-            {filterOptions.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => setActiveFilter(opt.value)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                  activeFilter === opt.value
-                    ? 'bg-[#10b981] text-[#f3f4f6] shadow-md shadow-emerald-500/20'
-                    : 'bg-[#141a1f] text-[#9ca3af] hover:text-[#f3f4f6] border border-[#222c35]'
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
+          {/* Filter Buttons & LinkedIn Honors Button */}
+          <div className="flex flex-col items-center gap-3 pt-4">
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {filterOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setActiveFilter(opt.value)}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                    activeFilter === opt.value
+                      ? 'bg-[#10b981] text-[#f3f4f6] shadow-md shadow-emerald-500/20'
+                      : 'bg-[#141a1f] text-[#9ca3af] hover:text-[#f3f4f6] border border-[#222c35]'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+
+            {/* LinkedIn Dynamic Badge Links */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5 mt-1">
+              {(activeFilter === 'All' || activeFilter === 'Work') && (
+                <a
+                  href="https://www.linkedin.com/in/ahmad-fadhil-ikram/details/experience/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#141a1f] hover:bg-[#222c35] border border-[#222c35] text-xs font-medium text-[#10b981] hover:text-emerald-400 transition-colors shadow-sm group"
+                >
+                  <Briefcase className="w-3.5 h-3.5 text-[#10b981]" />
+                  <span>Lihat Detail Pengalaman Kerja di LinkedIn</span>
+                  <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              )}
+
+              {(activeFilter === 'All' || activeFilter === 'Competition') && (
+                <a
+                  href="https://www.linkedin.com/in/ahmad-fadhil-ikram/details/honors/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#141a1f] hover:bg-[#222c35] border border-[#222c35] text-xs font-medium text-[#10b981] hover:text-emerald-400 transition-colors shadow-sm group"
+                >
+                  <Trophy className="w-3.5 h-3.5 text-[#d97706]" />
+                  <span>Lihat Detail Penghargaan di LinkedIn</span>
+                  <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              )}
+
+              {(activeFilter === 'All' || activeFilter === 'Education') && (
+                <a
+                  href="https://www.linkedin.com/in/ahmad-fadhil-ikram/details/education/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#141a1f] hover:bg-[#222c35] border border-[#222c35] text-xs font-medium text-[#10b981] hover:text-emerald-400 transition-colors shadow-sm group"
+                >
+                  <GraduationCap className="w-3.5 h-3.5 text-[#10b981]" />
+                  <span>Lihat Detail Pendidikan di LinkedIn</span>
+                  <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              )}
+            </div>
           </div>
         </div>
 
@@ -167,16 +211,18 @@ export const Timeline = () => {
                   )}
 
                   {/* Tech stack tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {exp.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 rounded-md bg-[#222c35]/50 text-xs font-mono text-[#9ca3af] border border-[#222c35]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {exp.tags && exp.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {exp.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-1 rounded-md bg-[#222c35]/50 text-xs font-mono text-[#9ca3af] border border-[#222c35]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}

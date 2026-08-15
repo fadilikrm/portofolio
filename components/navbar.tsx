@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Menu, X, Code2 } from 'lucide-react';
+import { Menu, X, Code2, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { siteConfig } from '@/config/site';
 
@@ -105,7 +105,7 @@ export const Navbar = () => {
 
   const emailHref =
     siteConfig.socials.find((s) => s.platform === 'email')?.url ||
-    'mailto:fadil.dev@example.com';
+    'mailto:fadilikram087@gmail.com';
 
   return (
     <header
@@ -208,6 +208,28 @@ export const Navbar = () => {
                   </button>
                 );
               })}
+              <div className="grid grid-cols-2 gap-2 pt-2">
+                <a
+                  href={siteConfig.resume?.id || '/resume/Resume-Indonesia-Ahmad Fadhil Ikram.pdf'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-1.5 py-3 text-sm font-medium text-[#f3f4f6] bg-[#141a1f] border border-[#222c35] hover:bg-[#222c35] rounded-xl transition-colors"
+                >
+                  <FileText className="w-4 h-4 text-[#10b981]" />
+                  <span>Resume (ID)</span>
+                </a>
+                <a
+                  href={siteConfig.resume?.en || '/resume/Resume-English-Ahmad Fadhil Ikram.pdf'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-1.5 py-3 text-sm font-medium text-[#f3f4f6] bg-[#141a1f] border border-[#222c35] hover:bg-[#222c35] rounded-xl transition-colors"
+                >
+                  <FileText className="w-4 h-4 text-[#10b981]" />
+                  <span>Resume (EN)</span>
+                </a>
+              </div>
               <a
                 href={emailHref}
                 onClick={() => setMobileMenuOpen(false)}

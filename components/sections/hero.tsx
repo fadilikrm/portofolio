@@ -1,9 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ArrowRight, Globe, Smartphone, Eye, Cpu } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowRight,
+  Globe,
+  Smartphone,
+  Eye,
+  Cpu,
+  FileText,
+  ChevronDown,
+  Download,
+  ExternalLink,
+  Mail,
+} from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { usePrefersReducedMotion } from '@/hooks/use-media-query';
@@ -14,6 +25,8 @@ export const Hero = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const [currentText, setCurrentText] = useState('');
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -29,8 +42,36 @@ export const Hero = () => {
     }
   }, [currentText, prefersReducedMotion]);
 
+  // Handle click outside of resume dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsResumeOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const containerVariants = prefersReducedMotion ? undefined : staggerContainer;
   const itemVariants = prefersReducedMotion ? undefined : fadeInUp;
+
+  const resumeLinks = [
+    {
+      label: 'Bahasa Indonesia',
+      code: 'ID',
+      flag: '🇮🇩',
+      url: siteConfig.resume?.id || '/resume/Resume-Indonesia-Ahmad Fadhil Ikram.pdf',
+      filename: 'Resume-Indonesia-Ahmad Fadhil Ikram.pdf',
+    },
+    {
+      label: 'English Version',
+      code: 'EN',
+      flag: '🇬🇧',
+      url: siteConfig.resume?.en || '/resume/Resume-English-Ahmad Fadhil Ikram.pdf',
+      filename: 'Resume-English-Ahmad Fadhil Ikram.pdf',
+    },
+  ];
 
   return (
     <section
@@ -124,14 +165,88 @@ export const Hero = () => {
             </a>
 
             <a
-              href={siteConfig.socials.find((s) => s.platform === 'email')?.url || 'mailto:fadil.dev@example.com'}
+              href={siteConfig.socials.find((s) => s.platform === 'email')?.url || 'mailto:fadilikram087@gmail.com'}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#141a1f] hover:bg-[#222c35] border border-[#222c35] text-[#f3f4f6] font-medium transition-all hover:-translate-y-0.5"
             >
+              <Mail className="w-4 h-4 text-[#10b981]" />
               <span>Hubungi via Email</span>
             </a>
+
+            {/* Resume Button with Dropdown */}
+            <div className="relative w-full sm:w-auto" ref={dropdownRef}>
+              <button
+                type="button"
+                onClick={() => setIsResumeOpen((prev) => !prev)}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#141a1f] hover:bg-[#222c35] border border-[#222c35] text-[#f3f4f6] font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
+                aria-expanded={isResumeOpen}
+                aria-haspopup="true"
+              >
+                <FileText className="w-4 h-4 text-[#10b981]" />
+                <span>Resume / CV</span>
+                <ChevronDown className={`w-4 h-4 text-[#9ca3af] transition-transform duration-200 ${isResumeOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              <AnimatePresence>
+                {isResumeOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                    className="absolute top-full mt-2 left-0 right-0 sm:left-auto sm:right-0 sm:w-64 bg-[#141a1f]/95 backdrop-blur-xl border border-[#222c35] rounded-xl p-2 shadow-2xl z-30 space-y-1 text-left"
+                  >
+                    <div className="px-3 py-1.5 text-[11px] font-mono font-semibold text-[#9ca3af] uppercase tracking-wider border-b border-[#222c35]/80 mb-1 flex items-center justify-between">
+                      <span>Pilih Versi Resume</span>
+                      <span className="text-[#10b981] text-[10px]">PDF</span>
+                    </div>
+
+                    {resumeLinks.map((item) => (
+                      <div
+                        key={item.code}
+                        className="flex items-center justify-between gap-2 p-2.5 rounded-lg hover:bg-[#222c35]/80 transition-colors group"
+                      >
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsResumeOpen(false)}
+                          className="flex items-center gap-2.5 flex-1 text-sm text-[#f3f4f6] font-medium hover:text-[#10b981] transition-colors"
+                        >
+                          <span className="text-base leading-none">{item.flag}</span>
+                          <span>{item.label}</span>
+                        </a>
+
+                        <div className="flex items-center gap-1">
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => setIsResumeOpen(false)}
+                            className="p-1.5 rounded-md hover:bg-[#10b981]/20 text-[#9ca3af] hover:text-[#10b981] transition-colors"
+                            title="Lihat PDF di tab baru"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </a>
+                          <a
+                            href={item.url}
+                            download={item.filename}
+                            onClick={() => setIsResumeOpen(false)}
+                            className="p-1.5 rounded-md hover:bg-[#10b981]/20 text-[#9ca3af] hover:text-[#10b981] transition-colors"
+                            title="Unduh PDF"
+                          >
+                            <Download className="w-4 h-4" />
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </motion.div>
       </div>
     </section>
   );
 };
+

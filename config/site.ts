@@ -7,22 +7,22 @@ export const siteConfig: SiteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://fadil-portfolio.vercel.app',
   ogImage: '/og-default.png',
   avatar: '/avatar.png',
+  resume: {
+    id: '/resume/Resume-Indonesia-Ahmad Fadhil Ikram.pdf',
+    en: '/resume/Resume-English-Ahmad Fadhil Ikram.pdf',
+  },
   socials: [
     {
       platform: 'email',
-      url: 'mailto:fadil.dev@example.com',
+      url: 'mailto:fadilikram087@gmail.com',
     },
     {
       platform: 'linkedin',
-      url: 'https://linkedin.com/in/fadil-dev',
+      url: 'https://www.linkedin.com/in/ahmad-fadhil-ikram',
     },
     {
       platform: 'github',
-      url: 'https://github.com/fadil-dev',
-    },
-    {
-      platform: 'twitter',
-      url: 'https://twitter.com/fadil_dev',
+      url: 'https://github.com/fadilikrm',
     },
   ],
 };

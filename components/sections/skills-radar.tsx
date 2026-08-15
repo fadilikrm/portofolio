@@ -23,6 +23,9 @@ import {
   Shield,
   Database,
   CheckCircle2,
+  MapPin,
+  Bell,
+  Video,
 } from 'lucide-react';
 import { skills } from '@/config/skills';
 import type { SkillCategory, Skill } from '@/types';
@@ -34,7 +37,7 @@ const categoryList: SkillCategory[] = [
   'Mobile Development',
   'AI & Computer Vision',
   'IoT / Embedded System',
-  'Tools & DevSecOps',
+  'DevOps & Cloud',
 ];
 
 const categoryColors: Record<SkillCategory, { text: string; bg: string; border: string; chipHover: string }> = {
@@ -62,7 +65,7 @@ const categoryColors: Record<SkillCategory, { text: string; bg: string; border: 
     border: 'border-amber-500/30',
     chipHover: 'hover:border-amber-500/50 hover:bg-amber-500/5',
   },
-  'Tools & DevSecOps': {
+  'DevOps & Cloud': {
     text: 'text-cyan-400',
     bg: 'bg-cyan-500/10',
     border: 'border-cyan-500/30',
@@ -94,6 +97,9 @@ const renderIcon = (name?: string) => {
     case 'GitBranch': return <GitBranch {...props} />;
     case 'TerminalSquare': return <TerminalSquare {...props} />;
     case 'Cloud': return <Cloud {...props} />;
+    case 'MapPin': return <MapPin {...props} />;
+    case 'Bell': return <Bell {...props} />;
+    case 'Video': return <Video {...props} />;
     default: return <CheckCircle2 {...props} />;
   }
 };
@@ -130,7 +136,7 @@ export const SkillsRadar = () => {
               <motion.div
                 key={cat}
                 variants={prefersReducedMotion ? undefined : fadeInUp}
-                className="p-6 rounded-2xl bg-[#141a1f] border border-[#222c35] space-y-6 glow-card flex flex-col justify-between"
+                className="p-6 rounded-2xl bg-[#141a1f] border border-[#222c35] space-y-6 glow-card flex flex-col justify-start"
               >
                 {/* Category Header */}
                 <div className="flex items-center justify-between border-b border-[#222c35] pb-4">

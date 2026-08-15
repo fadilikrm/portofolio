@@ -44,7 +44,7 @@ export type SkillCategory =
   | 'Mobile Development'
   | 'AI & Computer Vision'
   | 'IoT / Embedded System'
-  | 'Tools & DevSecOps';
+  | 'DevOps & Cloud';
 
 export interface Skill {
   name: string;
@@ -64,6 +64,10 @@ export interface SiteConfig {
   url: string;
   ogImage: string;
   avatar?: string;
+  resume?: {
+    id: string;
+    en: string;
+  };
   socials: SocialLink[];
 }
 
