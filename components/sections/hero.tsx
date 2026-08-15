@@ -189,11 +189,11 @@ export const Hero = () => {
               <AnimatePresence>
                 {isResumeOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    initial={{ opacity: 0, y: -8, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.96 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full mt-2 left-0 right-0 sm:left-auto sm:right-0 sm:w-64 bg-[#141a1f]/95 backdrop-blur-xl border border-[#222c35] rounded-xl p-2 shadow-2xl z-30 space-y-1 text-left"
+                    className="absolute bottom-full mb-3 left-0 right-0 sm:left-auto sm:right-0 sm:w-64 bg-[#141a1f]/95 backdrop-blur-xl border border-[#222c35] rounded-xl p-2 shadow-2xl z-30 space-y-1 text-left"
                   >
                     <div className="px-3 py-1.5 text-[11px] font-mono font-semibold text-[#9ca3af] uppercase tracking-wider border-b border-[#222c35]/80 mb-1 flex items-center justify-between">
                       <span>Pilih Versi Resume</span>

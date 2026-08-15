@@ -8,8 +8,8 @@ export const siteConfig: SiteConfig = {
   ogImage: '/og-default.png',
   avatar: '/avatar.png',
   resume: {
-    id: '/resume/Resume-Indonesia-Ahmad Fadhil Ikram.pdf',
-    en: '/resume/Resume-English-Ahmad Fadhil Ikram.pdf',
+    id: '/resume/resume-id.pdf',
+    en: '/resume/resume-en.pdf',
   },
   socials: [
     {
