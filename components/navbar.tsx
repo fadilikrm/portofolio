@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X, Code2, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { siteConfig } from '@/config/site';
@@ -18,9 +20,12 @@ const navItems: NavItem[] = [
 ];
 
 export const Navbar = () => {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('hero');
+
+  const isHomePage = pathname === '/';
 
   // This ref blocks IntersectionObserver from overwriting the active section
   // while the user is doing a programmatic scroll (from clicking a nav link)
@@ -35,8 +40,25 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // IntersectionObserver: only update active section when NOT doing a click-scroll
+  const scrollToSection = useCallback((id: string) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    // Lock observer for duration of scroll (max 1.2 seconds)
+    isScrollingToProgrammatic.current = true;
+    if (scrollingTimerRef.current) clearTimeout(scrollingTimerRef.current);
+    scrollingTimerRef.current = setTimeout(() => {
+      isScrollingToProgrammatic.current = false;
+    }, 1200);
+
+    const offsetTop = element.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+  }, []);
+
+  // IntersectionObserver: only update active section when on homepage and NOT doing a click-scroll
   useEffect(() => {
+    if (!isHomePage) return;
+
     const observerCallback: IntersectionObserverCallback = (entries) => {
       // Skip updates while user clicked a nav link
       if (isScrollingToProgrammatic.current) return;
@@ -68,39 +90,59 @@ export const Navbar = () => {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [isHomePage]);
 
-  const scrollToSection = useCallback((id: string) => {
-    const element = document.getElementById(id);
-    if (!element) return;
+  // Handle hash scroll when landing on or navigating to homepage
+  useEffect(() => {
+    if (isHomePage) {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        const timeoutId = setTimeout(() => {
+          scrollToSection(hash);
+          setActiveSection(hash);
+        }, 150);
+        return () => clearTimeout(timeoutId);
+      }
+    }
+  }, [isHomePage, scrollToSection]);
 
-    // Lock observer for duration of scroll (max 1.2 seconds)
-    isScrollingToProgrammatic.current = true;
-    if (scrollingTimerRef.current) clearTimeout(scrollingTimerRef.current);
-    scrollingTimerRef.current = setTimeout(() => {
-      isScrollingToProgrammatic.current = false;
-    }, 1200);
-
-    const offsetTop = element.getBoundingClientRect().top + window.scrollY - 80;
-    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-  }, []);
+  // Listen for hashchange events
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (isHomePage) {
+        const hash = window.location.hash.replace('#', '');
+        if (hash) {
+          scrollToSection(hash);
+          setActiveSection(hash);
+        }
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [isHomePage, scrollToSection]);
 
   const handleNavClick = useCallback(
-    (e: React.MouseEvent | React.TouchEvent, id: string, isMobile = false) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setActiveSection(id); // immediately highlight the clicked item
+    (e: React.MouseEvent<HTMLAnchorElement>, id: string, isMobile = false) => {
+      if (isHomePage) {
+        e.preventDefault();
+        setActiveSection(id); // immediately highlight the clicked item
 
-      if (isMobile && mobileMenuOpen) {
-        // Close menu first, then wait for exit animation (200ms) before scrolling
-        // so the layout shift from menu closing doesn't cancel window.scrollTo
-        setMobileMenuOpen(false);
-        setTimeout(() => scrollToSection(id), 280);
+        if (isMobile && mobileMenuOpen) {
+          // Close menu first, then wait for exit animation before scrolling
+          // so the layout shift from menu closing doesn't cancel window.scrollTo
+          setMobileMenuOpen(false);
+          setTimeout(() => scrollToSection(id), 280);
+        } else {
+          scrollToSection(id);
+        }
       } else {
-        scrollToSection(id);
+        if (isMobile && mobileMenuOpen) {
+          setMobileMenuOpen(false);
+        }
+        setActiveSection(id);
       }
     },
-    [scrollToSection, mobileMenuOpen],
+    [isHomePage, scrollToSection, mobileMenuOpen],
   );
 
   const emailHref =
@@ -117,8 +159,8 @@ export const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <button
-          type="button"
+        <Link
+          href="/#hero"
           onClick={(e) => handleNavClick(e, 'hero')}
           className="flex items-center gap-2 text-lg font-bold text-[#f3f4f6] hover:text-[#10b981] transition-colors group cursor-pointer bg-transparent border-none outline-none"
           aria-label="Ke beranda"
@@ -130,25 +172,28 @@ export const Navbar = () => {
             {siteConfig.name}
             <span className="text-[#10b981]">.dev</span>
           </span>
-        </button>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1.5 bg-[#141a1f]/80 border border-[#222c35] rounded-full px-3 py-1.5 backdrop-blur-md">
           {navItems.map((item) => {
-            const isActive = activeSection === item.id;
+            const isActive = isHomePage
+              ? activeSection === item.id
+              : pathname.startsWith('/projects') && item.id === 'projects';
+
             return (
-              <button
+              <Link
                 key={item.id}
-                type="button"
+                href={`/#${item.id}`}
                 onClick={(e) => handleNavClick(e, item.id)}
-                className={`px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer bg-transparent border outline-none ${
+                className={`px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer border outline-none ${
                   isActive
                     ? 'bg-[#10b981]/15 text-[#10b981] font-semibold border-[#10b981]/30 shadow-sm'
                     : 'text-[#9ca3af] hover:text-[#f3f4f6] hover:bg-[#222c35]/50 border-transparent'
                 }`}
               >
                 {item.label}
-              </button>
+              </Link>
             );
           })}
         </nav>
@@ -192,20 +237,23 @@ export const Navbar = () => {
           >
             <div className="flex flex-col gap-1.5 px-4 pt-3 pb-6">
               {navItems.map((item) => {
-                const isActive = activeSection === item.id;
+                const isActive = isHomePage
+                  ? activeSection === item.id
+                  : pathname.startsWith('/projects') && item.id === 'projects';
+
                 return (
-                  <button
+                  <Link
                     key={item.id}
-                    type="button"
+                    href={`/#${item.id}`}
                     onClick={(e) => handleNavClick(e, item.id, true)}
-                    className={`w-full text-left px-4 py-3.5 text-base font-medium rounded-xl transition-all duration-150 cursor-pointer bg-transparent border outline-none touch-manipulation ${
+                    className={`w-full text-left px-4 py-3.5 text-base font-medium rounded-xl transition-all duration-150 cursor-pointer border outline-none touch-manipulation ${
                       isActive
                         ? 'bg-[#10b981]/15 text-[#10b981] font-semibold border-[#10b981]/40'
                         : 'text-[#9ca3af] hover:text-[#f3f4f6] hover:bg-[#141a1f] border-transparent active:bg-[#141a1f]'
                     }`}
                   >
                     {item.label}
-                  </button>
+                  </Link>
                 );
               })}
               <div className="grid grid-cols-2 gap-2 pt-2">

@@ -44,13 +44,13 @@ export const skills: Skill[] = [
   { name: 'Deep Learning', category: 'AI & Computer Vision', iconName: 'Brain' },
 
   // 4. IoT / Embedded System
-  { name: 'Raspberry Pi 5', category: 'IoT / Embedded System', iconName: 'CircuitBoard' },
-  { name: 'ESP32', category: 'IoT / Embedded System', iconName: 'Cpu' },
+  { name: 'Raspberry Pi', category: 'IoT / Embedded System', iconName: 'CircuitBoard' },
   { name: 'IoT Sensors', category: 'IoT / Embedded System', iconName: 'Radio' },
   { name: 'CCTV & IP Camera', category: 'IoT / Embedded System', iconName: 'Video' },
   { name: 'Edge Computing', category: 'IoT / Embedded System', iconName: 'Cpu' },
   { name: 'Microcontrollers', category: 'IoT / Embedded System', iconName: 'CircuitBoard' },
   { name: 'MQTT Protocol', category: 'IoT / Embedded System', iconName: 'Radio' },
+  { name: 'InfluxDB', category: 'IoT / Embedded System', iconName: 'Database' },
 
   // 5. DevOps & Cloud
   { name: 'Virtual Machine', category: 'DevOps & Cloud', iconName: 'Box' },
@@ -58,6 +58,9 @@ export const skills: Skill[] = [
   { name: 'Linux', category: 'DevOps & Cloud', iconName: 'TerminalSquare' },
   { name: 'Git & GitHub', category: 'DevOps & Cloud', iconName: 'GitBranch' },
   { name: 'CI/CD', category: 'DevOps & Cloud', iconName: 'GitBranch' },
+  { name: 'Prometheus', category: 'DevOps & Cloud', iconName: 'Activity' },
+  { name: 'Grafana', category: 'DevOps & Cloud', iconName: 'BarChart3' },
   { name: 'Domain & Hosting', category: 'DevOps & Cloud', iconName: 'Cloud' },
 
 ];
+

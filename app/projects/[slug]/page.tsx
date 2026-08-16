@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ExternalLink, Github, Calendar, Tag, Sparkles, Layers } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Github, Calendar, Tag, Layers, Folder, Video, FileText } from 'lucide-react';
 import { projects } from '@/config/projects';
 
 interface ProjectPageProps {
@@ -73,16 +73,15 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             <span className="px-3 py-1 rounded-full bg-[#141a1f] border border-[#222c35] text-xs font-mono text-[#10b981]">
               {project.category}
             </span>
+            {project.role && (
+              <span className="px-3 py-1 rounded-full bg-[#10b981]/10 border border-[#10b981]/30 text-xs font-mono text-[#10b981] font-semibold">
+                Peran: {project.role}
+              </span>
+            )}
             <span className="inline-flex items-center gap-1.5 text-xs font-mono text-[#9ca3af]">
               <Calendar className="w-3.5 h-3.5 text-[#10b981]" />
               <span>{project.createdAt}</span>
             </span>
-            {project.featured && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#d97706]/20 border border-[#d97706]/40 text-xs font-semibold text-amber-300">
-                <Sparkles className="w-3 h-3 text-[#d97706]" />
-                <span>Featured</span>
-              </span>
-            )}
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-bold text-[#f3f4f6] leading-tight">
@@ -104,7 +103,19 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#10b981] hover:bg-emerald-600 text-[#f3f4f6] font-medium transition-all shadow-md shadow-emerald-500/20"
             >
               <ExternalLink className="w-4 h-4" />
-              <span>Kunjungi Live Demo</span>
+              <span>Kunjungi Website</span>
+            </a>
+          )}
+
+          {project.submissionUrl && (
+            <a
+              href={project.submissionUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#d97706]/20 hover:bg-[#d97706]/30 border border-[#d97706]/50 text-amber-300 font-medium transition-all"
+            >
+              <Folder className="w-4 h-4 text-amber-400" />
+              <span>Lihat Berkas Submission</span>
             </a>
           )}
 
@@ -117,6 +128,30 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             >
               <Github className="w-4 h-4" />
               <span>Lihat Kode Sumber</span>
+            </a>
+          )}
+
+          {project.documentationUrl && (
+            <a
+              href={project.documentationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/40 text-red-400 font-medium transition-all"
+            >
+              <Video className="w-4 h-4 text-red-400" />
+              <span>Tonton Dokumentasi Video</span>
+            </a>
+          )}
+
+          {project.paperUrl && (
+            <a
+              href={project.paperUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-medium transition-all"
+            >
+              <FileText className="w-4 h-4 text-emerald-400" />
+              <span>Baca Jurnal Ilmiah (Terakreditasi SINTA 3)</span>
             </a>
           )}
         </div>

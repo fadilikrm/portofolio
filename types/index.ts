@@ -2,7 +2,9 @@ export type ProjectCategory =
   | 'Web Development'
   | 'Mobile Development'
   | 'AI & Computer Vision'
-  | 'IoT / Embedded System';
+  | 'IoT / Embedded System'
+  | 'Web Development & AI'
+  | string;
 
 export interface ProjectMetric {
   label: string;
@@ -13,6 +15,7 @@ export interface Project {
   id: string;
   title: string;
   slug: string;
+  role?: string;
   summary: string;
   description: string;
   category: ProjectCategory;
@@ -21,6 +24,9 @@ export interface Project {
   techStack: string[];
   liveUrl?: string;
   githubUrl?: string;
+  submissionUrl?: string;
+  documentationUrl?: string;
+  paperUrl?: string;
   metrics?: ProjectMetric[];
   createdAt: string;
 }

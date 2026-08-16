@@ -47,7 +47,7 @@ export const Footer = () => {
           {/* Brand Column */}
           <div className="md:col-span-6 space-y-4">
             <Link
-              href="#hero"
+              href="/#hero"
               className="inline-flex items-center gap-2 text-xl font-bold text-[#f3f4f6] hover:text-[#10b981] transition-colors group"
             >
               <div className="p-1.5 rounded-lg bg-[#141a1f] border border-[#222c35] group-hover:border-[#10b981] transition-colors">
@@ -59,7 +59,7 @@ export const Footer = () => {
               </span>
             </Link>
             <p className="text-sm text-[#9ca3af] max-w-md leading-relaxed">
-              Membangun aplikasi web & mobile (Kotlin), serta integrasi AI, Computer Vision, dan sistem IoT. Terbuka untuk kolaborasi profesional.
+              Membangun aplikasi web & mobile, serta integrasi AI, Computer Vision, dan sistem IoT. Terbuka untuk kolaborasi profesional.
             </p>
           </div>
 
@@ -70,24 +70,24 @@ export const Footer = () => {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#hero" className="hover:text-[#10b981] transition-colors">
+                <Link href="/#hero" className="hover:text-[#10b981] transition-colors">
                   Beranda
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#experience" className="hover:text-[#10b981] transition-colors">
+                <Link href="/#experience" className="hover:text-[#10b981] transition-colors">
                   Pengalaman & Kompetisi
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#projects" className="hover:text-[#10b981] transition-colors">
+                <Link href="/#projects" className="hover:text-[#10b981] transition-colors">
                   Showcase Proyek
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#skills" className="hover:text-[#10b981] transition-colors">
+                <Link href="/#skills" className="hover:text-[#10b981] transition-colors">
                   Skills Radar
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

@@ -26,6 +26,8 @@ import {
   MapPin,
   Bell,
   Video,
+  Activity,
+  BarChart3,
 } from 'lucide-react';
 import { skills } from '@/config/skills';
 import type { SkillCategory, Skill } from '@/types';
@@ -100,6 +102,8 @@ const renderIcon = (name?: string) => {
     case 'MapPin': return <MapPin {...props} />;
     case 'Bell': return <Bell {...props} />;
     case 'Video': return <Video {...props} />;
+    case 'Activity': return <Activity {...props} />;
+    case 'BarChart3': return <BarChart3 {...props} />;
     default: return <CheckCircle2 {...props} />;
   }
 };
