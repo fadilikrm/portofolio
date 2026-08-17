@@ -41,8 +41,8 @@ Dokumen ini mendefinisikan kebutuhan produk untuk pembuatan website portofolio p
 - Aturan Urutan Keahlian: Web Development dan Mobile Development ditampilkan lebih dahulu, diikuti oleh AI / Computer Vision dan IoT / Embedded System.
 
 ### 5.2 Experience & Competitions Timeline
-- Garis waktu riwayat pekerjaan, magang, dan penghargaan kompetisi.
-- Filter kategori client-side tanpa reload halaman (Pekerjaan, Kompetisi, Pendidikan).
+- Garis waktu riwayat pekerjaan, magang, dan perolehan penghargaan.
+- Filter kategori client-side tanpa reload halaman (Pekerjaan, Penghargaan, Pendidikan).
 
 ### 5.3 Interactive Project Showcase (Bento Grid)
 - Visualisasi kartu proyek dengan efek interaktif.

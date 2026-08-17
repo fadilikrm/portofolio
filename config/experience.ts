@@ -78,7 +78,7 @@ export const experiences: Experience[] = [
     ],
   },
 
-  // --- KOMPETISI (COMPETITION) ---
+  // --- PENGHARGAAN & PENCAPAIAN (AWARDS & HONORS) ---
   {
     id: 'budayago-2026',
     role: '[Tingkat Nasional] Top 50 Finalist — BudayaGO Innovation Competition 2026',

@@ -70,7 +70,7 @@ export const projects: Project[] = [
     category: 'Mobile & AI & IoT',
     thumbnailUrl: '/project/begal.png',
     featured: true,
-    techStack: ['Kotlin', 'Python', 'FastAPI', 'YOLOv8', 'Raspberry Pi 5', 'Hailo AI Kit', 'Google Maps'],
+    techStack: ['Kotlin', 'Python', 'FastAPI', 'YOLOv8', 'Raspberry Pi 5', 'Hailo AI Kit', 'WinSCP & RealVNC', 'Google Maps'],
     paperUrl: 'https://jitce.fti.unand.ac.id/index.php/JITCE/article/view/350/109',
     metrics: [
       { label: 'Kecepatan AI Edge', value: '52.71 FPS' },

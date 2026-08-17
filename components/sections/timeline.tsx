@@ -13,9 +13,20 @@ type FilterType = 'All' | ExperienceType;
 const filterOptions: { label: string; value: FilterType }[] = [
   { label: 'Semua', value: 'All' },
   { label: 'Pekerjaan', value: 'Work' },
-  { label: 'Kompetisi', value: 'Competition' },
+  { label: 'Penghargaan', value: 'Competition' },
   { label: 'Pendidikan', value: 'Education' },
 ];
+
+const getTypeLabel = (type: ExperienceType) => {
+  switch (type) {
+    case 'Work':
+      return 'Pekerjaan';
+    case 'Competition':
+      return 'Penghargaan';
+    case 'Education':
+      return 'Pendidikan';
+  }
+};
 
 const getTypeIcon = (type: ExperienceType) => {
   switch (type) {
@@ -57,7 +68,7 @@ export const Timeline = () => {
             Pengalaman & Pencapaian
           </h2>
           <p className="text-[#9ca3af] max-w-2xl mx-auto text-base">
-            Rekam jejak profesional, kemenangan kompetisi hackathon, dan latar belakang akademis.
+            Rekam jejak profesional, perolehan penghargaan inovasi teknologi, dan latar belakang akademis.
           </p>
 
           {/* Filter Buttons & LinkedIn Honors Button */}
@@ -168,7 +179,7 @@ export const Timeline = () => {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-medium ${getTypeBadgeClass(exp.type)}`}>
                         {getTypeIcon(exp.type)}
-                        <span>{exp.type}</span>
+                        <span>{getTypeLabel(exp.type)}</span>
                       </span>
 
                       <div className="sm:hidden inline-flex items-center gap-1 text-xs font-mono text-[#9ca3af]">

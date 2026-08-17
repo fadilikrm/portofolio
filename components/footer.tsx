@@ -76,7 +76,7 @@ export const Footer = () => {
               </li>
               <li>
                 <Link href="/#experience" className="hover:text-[#10b981] transition-colors">
-                  Pengalaman & Kompetisi
+                  Pengalaman & Penghargaan
                 </Link>
               </li>
               <li>

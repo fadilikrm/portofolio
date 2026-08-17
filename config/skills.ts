@@ -50,6 +50,7 @@ export const skills: Skill[] = [
   { name: 'Edge Computing', category: 'IoT / Embedded System', iconName: 'Cpu' },
   { name: 'Microcontrollers', category: 'IoT / Embedded System', iconName: 'CircuitBoard' },
   { name: 'MQTT Protocol', category: 'IoT / Embedded System', iconName: 'Radio' },
+  { name: 'Remote Access (WinSCP & VNC)', category: 'IoT / Embedded System', iconName: 'TerminalSquare' },
   { name: 'InfluxDB', category: 'IoT / Embedded System', iconName: 'Database' },
 
   // 5. DevOps & Cloud
